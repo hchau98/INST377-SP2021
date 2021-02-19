@@ -1,7 +1,7 @@
 /* label the images, just for convenience, to visually track them */
 const images = document.querySelectorAll('.imageClass');
-const imageArray = Array.from(images);
-imageArray.forEach((element) => {
+const PicArray = Array.from(images);
+PicArray.forEach((element) => {
     console.log(element)
     })
 
@@ -25,7 +25,6 @@ carousel.querySelector('.prev').onclick = function() {
 carousel.querySelector('.next').onclick = function() {
   // shift right
   position -= width * count;
-  // can only shift the ribbbon for (total ribbon length - visible count) images
   position = Math.max(position, -width * (listElems.length - count));
   list.style.marginLeft = position + 'px';
 };
