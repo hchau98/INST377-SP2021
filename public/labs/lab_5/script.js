@@ -1,4 +1,5 @@
 
+
 function mapInit() {
   // follow the Leaflet Getting Started tutorial here
   const mymap = L.map('mapid').setView([38.98,-76.9378],13);
@@ -26,7 +27,7 @@ async function dataHandler(mapObjectFromFunction) {
     return arrayName.filter(place => {
         
         const regex = new RegExp(wordToMatch, 'gi');
-        return place.geocoded_column = 1 && place.zip.match(regex) || place.category.match(regex) || place.name.match(regex) 
+        return place.geocoded_column_1 && place.zip.match(regex) || place.category.match(regex) || place.name.match(regex) 
     });
     
   }
@@ -34,14 +35,15 @@ async function dataHandler(mapObjectFromFunction) {
   function displayMatches(event) {
 
     const matchArray = findMatches(event.target.value, arrayName);
-    console.table(matchArray);
-    const html = matchArray.map(place => {
+    const html = matchArray.slice(0,5).map(place => {
         const regex = new RegExp(event.target.value, 'gi');
         const Name = place.name.replace(regex, `<span class="h1">${event.target.value}</span>`);
         const Category = place.category.replace(regex, `<span class="h1">${event.target.value}</span>`);
         const Address = place.address_line_1.replace(regex, `<span class="h1">${event.target.value}</span>`);
         const City = place.city.replace(regex, `<span class="h1">${event.target.value}</span>`);
         const Zip = place.zip.replace(regex, `<span class="h1">${event.target.value}</span>`);
+        const longLat = place.geocoded_column_1.coordinates;  
+        const marker = L.marker([longLat[1],longLat[0]]).addTo(mapObjectFromFunction)
         return `
             <li>
             <span class = "name">${Name}</span>
@@ -54,15 +56,23 @@ async function dataHandler(mapObjectFromFunction) {
         `;
     }).join('');
     suggestions.innerHTML = html.toUpperCase();
+    matchArray.slice(0,1).map(place =>{
+      const longLat = place.geocoded_column_1.coordinates;
+      console.log(longLat[1],longLat[0])
+      mapObjectFromFunction.panTo([longLat[1],longLat[0]],false)
+    })
+    
   }
 
-  const userInputs = document.querySelector('.input');
+  const userInputs = document.querySelector('.search');
   const suggestions = document.querySelector('.suggestions');
 
-
-  userInputs.addEventListener('keyup', (event) => {
-    event.preventDefault()
-    displayMatches(event)
+  
+  userInputs.addEventListener('keyup', event => {
+    event.preventDefault();
+    console.log(displayMatches(event));
+    displayMatches(event);
+   
   })
   
 }

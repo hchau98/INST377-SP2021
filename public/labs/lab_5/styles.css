@@ -1,1 +1,23 @@
-#mapid { height: 180px; }
+body {
+    line-height: 1.6;
+    font-size: 18px;
+    color: #444;
+    padding: 0 10px;
+}
+h1,
+h2,
+h3 {
+    line-height: 1.2;
+}
+#mapid { height: 480px; }
+
+.suggestion-header{
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+.suggestion-item {
+    border-radius: 4px;
+    color: rgba(25,25,25,90);
+    background: peachpuff;
+    padding: 5px;
+}
